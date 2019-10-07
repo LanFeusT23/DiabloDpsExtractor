@@ -28,6 +28,7 @@ namespace DiabloDpsExtractor
         private void video_NewFrame(object sender, NewFrameEventArgs eventArgs)
         {
             // get new frame
+            // figure out how to not make this run out of memory
             var bitmap = eventArgs.Frame.Clone() as Bitmap;
 
             // process the frame
@@ -36,6 +37,7 @@ namespace DiabloDpsExtractor
             var imgOut = DetectText(img);
             pictureBox1.Image = imgOut.Bitmap;
             pictureBox2.Image = img.Bitmap;
+            bitmap.Dispose();
         }
 
         private Image<Bgr, byte> DetectText(Image<Bgr, byte> img)
@@ -48,6 +50,8 @@ namespace DiabloDpsExtractor
              */
 
             //sobel
+
+            // add sliders here to figure out how to detect D3 damages
             var sobel = img
                 .Convert<Gray, byte>()
                 .Sobel(1, 0, 3)
