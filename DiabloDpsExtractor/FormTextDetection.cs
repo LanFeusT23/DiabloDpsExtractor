@@ -34,8 +34,8 @@ namespace DiabloDpsExtractor
             var img = new Image<Bgr, byte>(bitmap);
 
             var imgOut = DetectText(img);
-            pictureBox1.Image = img.Bitmap;
-            pictureBox2.Image = imgOut.Bitmap;
+            pictureBox1.Image = imgOut.Bitmap;
+            pictureBox2.Image = img.Bitmap;
         }
 
         private Image<Bgr, byte> DetectText(Image<Bgr, byte> img)
