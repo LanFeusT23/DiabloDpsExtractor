@@ -29,12 +29,13 @@
         {
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.pictureBox2 = new System.Windows.Forms.PictureBox();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.startRecordingToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.openVideoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.outputBox = new System.Windows.Forms.PictureBox();
+            this.contrastBox = new System.Windows.Forms.PictureBox();
             this.menuStrip1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.outputBox)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.contrastBox)).BeginInit();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -50,35 +51,43 @@
             // fileToolStripMenuItem
             // 
             this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.openToolStripMenuItem});
+            this.startRecordingToolStripMenuItem,
+            this.openVideoToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
             this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
             this.fileToolStripMenuItem.Text = "File";
             // 
-            // openToolStripMenuItem
+            // startRecordingToolStripMenuItem
             // 
-            this.openToolStripMenuItem.Name = "openToolStripMenuItem";
-            this.openToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.openToolStripMenuItem.Text = "Start";
-            this.openToolStripMenuItem.Click += new System.EventHandler(this.startStripMenuItem_Click);
+            this.startRecordingToolStripMenuItem.Name = "startRecordingToolStripMenuItem";
+            this.startRecordingToolStripMenuItem.Size = new System.Drawing.Size(193, 22);
+            this.startRecordingToolStripMenuItem.Text = "Start Recording Screen";
+            this.startRecordingToolStripMenuItem.Click += new System.EventHandler(this.startStripMenuItem_Click);
             // 
-            // pictureBox2
+            // openVideoToolStripMenuItem
             // 
-            this.pictureBox2.Location = new System.Drawing.Point(375, 40);
-            this.pictureBox2.Name = "pictureBox2";
-            this.pictureBox2.Size = new System.Drawing.Size(1042, 876);
-            this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBox2.TabIndex = 6;
-            this.pictureBox2.TabStop = false;
+            this.openVideoToolStripMenuItem.Name = "openVideoToolStripMenuItem";
+            this.openVideoToolStripMenuItem.Size = new System.Drawing.Size(193, 22);
+            this.openVideoToolStripMenuItem.Text = "Open Video...";
+            this.openVideoToolStripMenuItem.Click += new System.EventHandler(this.OpenVideoToolStripMenuItem_Click);
             // 
-            // pictureBox1
+            // outputBox
             // 
-            this.pictureBox1.Location = new System.Drawing.Point(12, 40);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(357, 341);
-            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
-            this.pictureBox1.TabIndex = 5;
-            this.pictureBox1.TabStop = false;
+            this.outputBox.Location = new System.Drawing.Point(375, 40);
+            this.outputBox.Name = "outputBox";
+            this.outputBox.Size = new System.Drawing.Size(1042, 876);
+            this.outputBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.outputBox.TabIndex = 6;
+            this.outputBox.TabStop = false;
+            // 
+            // contrastBox
+            // 
+            this.contrastBox.Location = new System.Drawing.Point(12, 40);
+            this.contrastBox.Name = "contrastBox";
+            this.contrastBox.Size = new System.Drawing.Size(357, 341);
+            this.contrastBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.contrastBox.TabIndex = 5;
+            this.contrastBox.TabStop = false;
             // 
             // FormTextDetection
             // 
@@ -86,14 +95,14 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1429, 952);
             this.Controls.Add(this.menuStrip1);
-            this.Controls.Add(this.pictureBox2);
-            this.Controls.Add(this.pictureBox1);
+            this.Controls.Add(this.outputBox);
+            this.Controls.Add(this.contrastBox);
             this.Name = "FormTextDetection";
             this.Text = "FormTextDetection";
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.outputBox)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.contrastBox)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -103,9 +112,10 @@
 
         private System.Windows.Forms.MenuStrip menuStrip1;
         private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem openToolStripMenuItem;
-        private System.Windows.Forms.PictureBox pictureBox2;
-        private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.ToolStripMenuItem startRecordingToolStripMenuItem;
+        private System.Windows.Forms.PictureBox outputBox;
+        private System.Windows.Forms.PictureBox contrastBox;
+        private System.Windows.Forms.ToolStripMenuItem openVideoToolStripMenuItem;
     }
 }
 

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using AForge.Video;
 using Emgu.CV;
@@ -10,6 +11,9 @@ namespace DiabloDpsExtractor
 {
     public partial class FormTextDetection : Form
     {
+        VideoCapture capture;
+        private int minThresholdDefault = 50;
+        private int maxThresholdDefault = 255;
         public FormTextDetection()
         {
             InitializeComponent();
@@ -20,9 +24,24 @@ namespace DiabloDpsExtractor
             Rectangle screenArea = Rectangle.FromLTRB(0, 0, 2560, 1440);
             ScreenCaptureStream stream = new ScreenCaptureStream(screenArea, 100);
             stream.NewFrame += new NewFrameEventHandler(video_NewFrame);
+            openVideoToolStripMenuItem.Enabled = false;
 
             // start the video source
             stream.Start();
+        }
+
+        private void OpenVideoToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog ofd = new OpenFileDialog();
+
+            if (ofd.ShowDialog() == DialogResult.OK)
+            {
+                startRecordingToolStripMenuItem.Enabled = false;
+                capture = new VideoCapture(ofd.FileName);
+                Mat m = new Mat();
+                capture.Read(m);
+                DetectVideoText();
+            }
         }
 
         private void video_NewFrame(object sender, NewFrameEventArgs eventArgs)
@@ -34,13 +53,45 @@ namespace DiabloDpsExtractor
             // process the frame
             var img = new Image<Bgr, byte>(bitmap);
 
-            var imgOut = DetectText(img);
-            pictureBox1.Image = imgOut.Bitmap;
-            pictureBox2.Image = img.Bitmap;
+            DetectText(img);
             bitmap.Dispose();
         }
 
-        private Image<Bgr, byte> DetectText(Image<Bgr, byte> img)
+        private async void DetectVideoText()
+        {
+            if (capture == null)
+            {
+                return;
+            }
+
+            try
+            {
+
+                while (true)
+                {
+                    Mat m = new Mat();
+                    capture.Read(m);
+
+                    if (!m.IsEmpty)
+                    {
+                        outputBox.Image = m.Bitmap;
+                        DetectText(m.ToImage<Bgr, byte>());
+                        double fps = capture.GetCaptureProperty(Emgu.CV.CvEnum.CapProp.Fps);
+                        await Task.Delay(1000 / Convert.ToInt32(fps));
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void DetectText(Image<Bgr, byte> img)
         {
             /*
              1. Edge detection (sobel)
@@ -57,7 +108,7 @@ namespace DiabloDpsExtractor
                 .Sobel(1, 0, 3)
                 .AbsDiff(new Gray(0.0))
                 .Convert<Gray, byte>()
-                .ThresholdBinary(new Gray(50), new Gray(255));
+                .ThresholdBinary(new Gray(minThresholdDefault), new Gray(maxThresholdDefault));
 
             var se = CvInvoke.GetStructuringElement(Emgu.CV.CvEnum.ElementShape.Rectangle, new Size(10, 2), new Point(-1, -1));
             sobel = sobel.MorphologyEx(Emgu.CV.CvEnum.MorphOp.Dilate, se, new Point(-1, -1), 1, Emgu.CV.CvEnum.BorderType.Reflect, new MCvScalar(255));
@@ -87,9 +138,8 @@ namespace DiabloDpsExtractor
                 CvInvoke.Rectangle(imgOut, r, new MCvScalar(0, 255, 255), -1);
             }
             imgOut._And(imgOut);
-
-            return imgOut;
-
+            contrastBox.Image = imgOut.Bitmap;
+            outputBox.Image = img.Bitmap;
         }
     }
 }
