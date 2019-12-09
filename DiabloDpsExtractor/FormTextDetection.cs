@@ -17,11 +17,15 @@ namespace DiabloDpsExtractor
         public FormTextDetection()
         {
             InitializeComponent();
+            minThresholdValue.Text = minThresholdDefault.ToString();
+            maxThresholdValue.Text = maxThresholdDefault.ToString();
+            minThresholdTrackbar.Value = minThresholdDefault;
+            maxThresholdTrackbar.Value = maxThresholdDefault;
         }
 
         private void startStripMenuItem_Click(object sender, EventArgs e)
         {
-            Rectangle screenArea = Rectangle.FromLTRB(0, 0, 2560, 1440);
+            Rectangle screenArea = Rectangle.FromLTRB(2561, 0, 5120, 1440); // 2nd monitor
             ScreenCaptureStream stream = new ScreenCaptureStream(screenArea, 100);
             stream.NewFrame += new NewFrameEventHandler(video_NewFrame);
             openVideoToolStripMenuItem.Enabled = false;
@@ -137,9 +141,22 @@ namespace DiabloDpsExtractor
                 CvInvoke.Rectangle(img, r, new MCvScalar(0, 0, 255), 2);
                 CvInvoke.Rectangle(imgOut, r, new MCvScalar(0, 255, 255), -1);
             }
+
             imgOut._And(imgOut);
             contrastBox.Image = imgOut.Bitmap;
             outputBox.Image = img.Bitmap;
+        }
+
+        private void thresholdBinaryTrackbar_Scroll(object sender, EventArgs e)
+        {
+            minThresholdDefault = minThresholdTrackbar.Value;
+            minThresholdValue.Text = minThresholdDefault.ToString();
+        }
+
+        private void maxThresholdTrackbar_Scroll(object sender, EventArgs e)
+        {
+            maxThresholdDefault = maxThresholdTrackbar.Value;
+            maxThresholdValue.Text = maxThresholdDefault.ToString();
         }
     }
 }
