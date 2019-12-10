@@ -37,8 +37,8 @@ namespace DiabloDpsExtractor
 
         private void startStripMenuItem_Click(object sender, EventArgs e)
         {
-            Rectangle screenArea = Rectangle.FromLTRB(0, 0, 2560, 1440); // 1st monitor
-            //Rectangle screenArea = Rectangle.FromLTRB(2561, 0, 5120, 1440); // 2nd monitor
+            //Rectangle screenArea = Rectangle.FromLTRB(0, 0, 2560, 1440); // 1st monitor
+            Rectangle screenArea = Rectangle.FromLTRB(2561, 0, 5120, 1440); // 2nd monitor
             ScreenCaptureStream stream = new ScreenCaptureStream(screenArea, 100);
             stream.NewFrame += new NewFrameEventHandler(video_NewFrame);
             openVideoToolStripMenuItem.Enabled = false;
@@ -121,23 +121,23 @@ namespace DiabloDpsExtractor
 
             //sobelj
             var sobel = img
-                .InRange(new Bgr(0, 80, 100), new Bgr(35, 220, 240)) // yellow ish detection
-                .Convert<Gray, byte>()
+                //.InRange(new Bgr(0, 80, 100), new Bgr(35, 220, 240)) // yellow ish detection
+                //.Convert<Gray, byte>()
                 //.ThresholdBinary(new Hsv(25, 50, 50), new Hsv(32, 255, 255))
-                //.Convert<Hsv, byte>()
-                //.InRange(new Hsv(25, 50, 50), new Hsv(32, 255, 255)) // yellow ish detection
+                .Convert<Hsv, byte>()
+                .InRange(new Hsv(25, 100, 100), new Hsv(30, 255, 255)) // yellow ish detection
                 .Convert<Gray, byte>()
                 .Sobel(1, 0, 3)
                 .AbsDiff(new Gray(0.0))
                 .Convert<Gray, byte>()
                 .ThresholdBinary(new Gray(55), new Gray(255));
 
-            var se = CvInvoke.GetStructuringElement(Emgu.CV.CvEnum.ElementShape.Rectangle, new Size(29, 16), new Point(-1, -1));
-            sobel = sobel.MorphologyEx(Emgu.CV.CvEnum.MorphOp.Dilate, se, new Point(-1, -1), 1, Emgu.CV.CvEnum.BorderType.Reflect, new MCvScalar(255));
+            var se = CvInvoke.GetStructuringElement(ElementShape.Rectangle, new Size(15, 2), new Point(-1, -1));
+            sobel = sobel.MorphologyEx(MorphOp.Dilate, se, new Point(-1, -1), 1, BorderType.Reflect, new MCvScalar(255));
             var contours = new VectorOfVectorOfPoint();
             var m = new Mat();
             
-            CvInvoke.FindContours(sobel, contours, m, Emgu.CV.CvEnum.RetrType.External, Emgu.CV.CvEnum.ChainApproxMethod.ChainApproxSimple);
+            CvInvoke.FindContours(sobel, contours, m, RetrType.External, ChainApproxMethod.ChainApproxSimple);
 
             //ReadText(img, contours);
             DisplayBoxes(img, contours);
@@ -156,15 +156,13 @@ namespace DiabloDpsExtractor
                     // GET TEXT
                     var imageText = imgInput.Copy();
                     imageText.ROI = brect;
-                    imageText.Convert<Hsv, byte>()
-                             .ThresholdBinary(new Hsv(25, 50, 50), new Hsv(32, 255, 255));
                     contrastBox.Image = imgInput.Bitmap;
                     outputBox.Image = imageText.Bitmap;
                     var results = "";
                     try
                     {
                         // OCR
-                        var page = ocr.Process(imageText.Bitmap, PageSegMode.SingleBlock);
+                        var page = ocr.Process(imageText.Bitmap, PageSegMode.SingleWord);
                         results = page.GetText();
 
                         if (!string.IsNullOrWhiteSpace(results))
@@ -195,6 +193,7 @@ namespace DiabloDpsExtractor
                                 Console.WriteLine("text value: " + totalDmg);
                             }
                         }
+
                         page.Dispose();
                     }
                     catch (Exception e)
