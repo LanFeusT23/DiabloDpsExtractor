@@ -102,12 +102,12 @@
             this.minThresholdTrackbar.LargeChange = 10;
             this.minThresholdTrackbar.Location = new System.Drawing.Point(12, 419);
             this.minThresholdTrackbar.Maximum = 255;
-            this.minThresholdTrackbar.Minimum = 10;
             this.minThresholdTrackbar.Name = "minThresholdTrackbar";
             this.minThresholdTrackbar.Size = new System.Drawing.Size(357, 45);
             this.minThresholdTrackbar.SmallChange = 5;
             this.minThresholdTrackbar.TabIndex = 7;
             this.minThresholdTrackbar.Value = 10;
+            this.minThresholdTrackbar.Visible = false;
             this.minThresholdTrackbar.Scroll += new System.EventHandler(this.thresholdBinaryTrackbar_Scroll);
             // 
             // label1
@@ -118,6 +118,7 @@
             this.label1.Size = new System.Drawing.Size(71, 13);
             this.label1.TabIndex = 8;
             this.label1.Text = "MinThreshold";
+            this.label1.Visible = false;
             // 
             // label2
             // 
@@ -127,18 +128,19 @@
             this.label2.Size = new System.Drawing.Size(74, 13);
             this.label2.TabIndex = 10;
             this.label2.Text = "MaxThreshold";
+            this.label2.Visible = false;
             // 
             // maxThresholdTrackbar
             // 
             this.maxThresholdTrackbar.LargeChange = 10;
             this.maxThresholdTrackbar.Location = new System.Drawing.Point(15, 481);
             this.maxThresholdTrackbar.Maximum = 255;
-            this.maxThresholdTrackbar.Minimum = 10;
             this.maxThresholdTrackbar.Name = "maxThresholdTrackbar";
             this.maxThresholdTrackbar.Size = new System.Drawing.Size(357, 45);
             this.maxThresholdTrackbar.SmallChange = 5;
             this.maxThresholdTrackbar.TabIndex = 9;
             this.maxThresholdTrackbar.Value = 10;
+            this.maxThresholdTrackbar.Visible = false;
             this.maxThresholdTrackbar.Scroll += new System.EventHandler(this.maxThresholdTrackbar_Scroll);
             // 
             // minThresholdValue
@@ -149,6 +151,7 @@
             this.minThresholdValue.Size = new System.Drawing.Size(35, 13);
             this.minThresholdValue.TabIndex = 11;
             this.minThresholdValue.Text = "label3";
+            this.minThresholdValue.Visible = false;
             // 
             // maxThresholdValue
             // 
@@ -158,6 +161,7 @@
             this.maxThresholdValue.Size = new System.Drawing.Size(35, 13);
             this.maxThresholdValue.TabIndex = 12;
             this.maxThresholdValue.Text = "label4";
+            this.maxThresholdValue.Visible = false;
             // 
             // FormTextDetection
             // 
